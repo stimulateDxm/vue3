@@ -39,40 +39,49 @@ export default {
       carr:[]
 
     })
-
+    //小球函数
+    p.cs =
+        (c=c,x = parseInt(Math.random() * 750)+30, tex=p.ABC[parseInt(Math.random() * p.ABC.length)], y = parseInt(Math.random() * 450)+30 , col = `rgb(${parseInt(Math.random()*225)},${parseInt(Math.random()*225)},${parseInt(Math.random()*225)})`)=> {
+          // this.ctx.clearRect(0,0,800,500)//清除画布
+          c.beginPath();
+          c.save();
+          let lg = c.createRadialGradient(x, y, 0, x, y, 30);
+          lg.addColorStop(0, "#fff");
+          lg.addColorStop(1, col);
+          c.arc(x, y, 20, 0, 2 * Math.PI);
+          c.fillStyle =lg;
+          c.fill();
+          c.restore();
+          c.save();
+          c.font = "20px  Microsoft YaHei"; //设置字体样式
+          c.fillText(tex, x - 7, y + 6); //绘制文本
+          c.textAlign = "center"; //设置绘制文本的给定点为文本中间
+          c.restore();
+          return [x,y,tex]
+        }
     onUnmounted(()=>{
       //封装一个获取id的函数
       function $(value){
         return document.getElementById(value)
       }
+      //获取canvas上下文
       let c=$('canvass').getContext('2d')
-      //小球函数
-      p.cs =
-          (x = parseInt(Math.random() * 750)+30, tex=p.ABC[parseInt(Math.random() * p.ABC.length)], y = parseInt(Math.random() * 450)+30 , col = `rgb(${parseInt(Math.random()*225)},${parseInt(Math.random()*225)},${parseInt(Math.random()*225)})`)=> {
-            // this.ctx.clearRect(0,0,800,500)//清除画布
-            c.beginPath();
-            c.save();
-            let lg = c.createRadialGradient(x, y, 0, x, y, 30);
-            lg.addColorStop(0, "#fff");
-            lg.addColorStop(1, col);
-            c.arc(x, y, 20, 0, 2 * Math.PI);
-            c.fillStyle =lg;
-            c.fill();
-            c.restore();
-            c.save();
-            c.font = "20px  Microsoft YaHei"; //设置字体样式
-            c.fillText(tex, x - 7, y + 6); //绘制文本
-            c.textAlign = "center"; //设置绘制文本的给定点为文本中间
-            c.restore();
-          }
-
+     //循环出字母
           for (let i=0; i<30; i++){
-             p.cs()
-            // p.carr.push(p.cs)
-            // console.log(p.a,p.carr)
+              p.carr.push(p.cs(c))
+
           }
 
-
+   document.addEventListener("keyup", (e)=>{
+     //获取第一个出现的索引
+   function ekey(a){
+     return a[2]==e.key.toUpperCase()
+}
+    let b=p.carr.findIndex(ekey)
+     c.clearRect(p.carr[b][0]+20,p.carr[b][1]+20,40,40)//清除画布
+     // console.log(p.carr[b][0],p.carr[b][1],40,40)
+     // console.log(p.carr[b][0],p.carr[b][1],c.width,c.height)
+   })
     })
 
 
