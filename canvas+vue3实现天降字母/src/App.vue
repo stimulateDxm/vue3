@@ -18,7 +18,7 @@
       </ol>
       <div class="hints" v-show="ishints">
       </div>
-      <span class="hint" v-show="ishints">直接在键盘输入下落的字母，会自动计数，如在显示区域还未输入数量超过20个就自动结束 <span @click="ishint">我知道了</span></span>
+      <span class="hint" v-show="ishints">直接在键盘输入下落的字母，会自动计数，如已下到不可见区域还未输入数量超过20个就自动结束 <span @click="ishint">我知道了</span></span>
 
 
     </div>
