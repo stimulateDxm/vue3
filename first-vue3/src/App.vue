@@ -1,7 +1,7 @@
 <template>
   <div class="w">
     <section id="section">
-      <canvas id="canvass" height="500" width="800">看到这行字就是因为你的浏览器没更新的结果</canvas>
+      <canvas id="canvass" height="550" width="800">看到这行字就是因为你的浏览器没更新的结果</canvas>
       <button v-show="isgood" id="go" @click="good">开始</button>
 
     </section>
@@ -16,6 +16,9 @@
         <li id="miss">错过的数量:{{ missarr.length }}</li>
         <li id="imte" class="i" v-show="isbook">用时:{{time}}秒</li>
       </ol>
+      <div class="hints" v-show="ishints">
+      </div>
+      <span class="hint" v-show="ishints">直接在键盘输入下落的字母，会自动计数，如在显示区域还未输入数量超过20个就自动结束 <span @click="ishint">我知道了</span></span>
 
 
     </div>
@@ -45,13 +48,17 @@ export default {
       time:0,
       //结束显示框
       isbook:false,
-      olnum:"s"
+      olnum:"s",
+      //说明框
+      ishints:true,
+      //加速个数的出现
+      speed:1000
 
     })
     //小球函数
     p.cs =
         (x = parseInt(Math.random() * 750) + 30, tex = p.ABC[parseInt(Math.random() * p.ABC.length)], y = -50, col = `rgb(${parseInt(Math.random() * 225)},${parseInt(Math.random() * 225)},${parseInt(Math.random() * 225)})`) => {
-          // this.ctx.clearRect(0,0,800,500)//清除画布
+          // this.ctx.clearRect(0,0,800,550)//清除画布
           p.c.beginPath();
           p.c.save();
           let lg = p.c.createRadialGradient(x, y, 0, x, y, 30);
@@ -74,7 +81,7 @@ export default {
       //下落字母速度
       cancelAnimationFrame(p.re)
       p.re=requestAnimationFrame(()=>{
-        p.c.clearRect(0,0,800,500)//清除画布
+        p.c.clearRect(0,0,800,550)//清除画布
         for (let i=0; i<p.carr.length ; i++){
           p.carr[i][2]+=p.y
           p.cs(p.carr[i][0],p.carr[i][1],p.carr[i][2],p.carr[i][3])
@@ -82,16 +89,26 @@ export default {
       })
 
     }
+    //游戏提示框
+    p.ishint=()=>{
+      p.ishints=false
+    }
     //开始按钮
     p.good = () => {
       p.times=new Date().getTime()
-      p.isover = false
+      p.isgood = false
       //一段时间生产出的字母
       clearInterval(p.tiems)
       p.tiems = setInterval(() => {
         p.carr.push(p.cs())
-        p.y+=0.02
-      }, 500)
+        if(p.speed<=200){
+          p.speed-=20
+        }
+        if(p.y<=3){
+          p.y+=0.02
+        }
+
+      }, 550)
       p.x()
     }
     //结束按钮
@@ -120,10 +137,10 @@ export default {
           //结束显示框
           p.isbook=false
           p.olnum="s"
-      p.c.clearRect(0, 0, 800, 500)//清除画布
+      p.c.clearRect(0, 0, 800, 550)//清除画布
     }
 
-    watch(()=>p.carr,()=>{
+    watch([()=>p.carr,()=>p.missarr],()=>{
       //p.carr有变量就开始执行下落函数
       p.x()
       for (let i=0; i<p.carr.length ; i++){
@@ -132,7 +149,11 @@ export default {
           p.carr.splice(i, 1)
         }
       }
+      if(p.missarr.length==20){
+        p.over()
+      }
     },{deep:true})
+
 
 
     onMounted(() => {
@@ -149,7 +170,7 @@ export default {
         let ek = e.key.toUpperCase()
         for (let i = 0; i < p.carr.length; i++) {
           if (ek == p.carr[i][1]) {
-            p.c.clearRect(0, 0, 800, 500)//清除画布
+            p.c.clearRect(0, 0, 800, 550)//清除画布
             p.carr.splice(i, 1)
             p.accomplish++
             for (let j = 0; j < p.carr.length; j++) {
@@ -275,6 +296,39 @@ section {
     height: 50px;
     line-height: 50px;
 
+  }
+}
+.hints{
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: black;
+  opacity: 0.5;
+}
+.hint{
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%,-50%);
+  background-color: #fff;
+  border: 1px solid rgb(87, 238, 188);
+  width: 250px;
+  height: 150px;
+  line-height: 33px;
+  z-index: 999;
+  span{
+    border: 1px solid #555151;
+    background-color: #dba645;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 10px;
+    font-size: 18px;
+    &:hover{
+      background-color: #835a10;
+    }
   }
 }
 
