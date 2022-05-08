@@ -1,250 +1,281 @@
 <template>
-    <div class="w">
+  <div class="w">
     <section id="section">
-         <canvas id="canvass" width="800" height="500">看到这行字就是因为你的浏览器没更新的结果</canvas>
-        <button id="go">开始</button>
+      <canvas id="canvass" height="500" width="800">看到这行字就是因为你的浏览器没更新的结果</canvas>
+      <button v-show="isgood" id="go" @click="good">开始</button>
 
     </section>
     <div class="selects">
-        <div id="buts">
-            <button id="stop">结束</button>
-            <!-- <button id="goon">继续</button> -->
-            <button id="restart">重来</button>
-        </div>
-        <!-- <ul id="select">
-            <li>选择速度</li>
-            <li class="nums">慢</li>
-            <li class="nums">中</li>
-            <li class="nums">快</li>
-            <li class="nums">特快</li>
-        </ul> -->
-        <ol id="olnum" class="s" >
-            <li id="over" class="i">游戏结束</li>
-            <li id="num" >完成的数量:0</li>
-            <li id="miss" >错过的数量:0</li>
-            <li id="imte" class="i">用时:0秒</li>
-        </ol>
+      <div id="buts">
+        <button id="stop" @click="over">结束</button>
+        <button id="restart" @click="restart">重来</button>
+      </div>
+      <ol id="olnum" :class=olnum>
+        <li id="over" class="i" v-show="isbook">游戏结束</li>
+        <li id="num">完成的数量:{{ accomplish }}</li>
+        <li id="miss">错过的数量:{{ missarr.length }}</li>
+        <li id="imte" class="i" v-show="isbook">用时:{{time}}秒</li>
+      </ol>
+
 
     </div>
-</div>
+  </div>
 </template>
 
 <script>
-import {reactive,onUnmounted,toRefs} from 'vue'
+import {onMounted, reactive,watch, toRefs} from 'vue'
+
 export default {
-  name:'App',
+  name: 'App',
   setup() {
     let p = reactive({
       //下落的随机字母
       ABC: "abcdefghijklnmopqrstuvwxyz".toUpperCase().split(''),
       //下落的字母数组
-      carr:[],
+      carr: [],
       //下落字母的值
-      y:1
+      y: 1,
+      //开始按钮显示隐藏
+      isgood: true,
+      //完成数量
+      accomplish:0,
+     //错过的数量
+      missarr:[],
+    //记录时间
+      time:0,
+      //结束显示框
+      isbook:false,
+      olnum:"s"
 
     })
     //小球函数
-  p.cs =
-        (x = parseInt(Math.random() * 750)+30, tex=p.ABC[parseInt(Math.random() * p.ABC.length)], y = 50 , col = `rgb(${parseInt(Math.random()*225)},${parseInt(Math.random()*225)},${parseInt(Math.random()*225)})`)=> {
+    p.cs =
+        (x = parseInt(Math.random() * 750) + 30, tex = p.ABC[parseInt(Math.random() * p.ABC.length)], y = -50, col = `rgb(${parseInt(Math.random() * 225)},${parseInt(Math.random() * 225)},${parseInt(Math.random() * 225)})`) => {
           // this.ctx.clearRect(0,0,800,500)//清除画布
-       p.c.beginPath();
-       p.c.save();
-          let lg =p.c.createRadialGradient(x, y, 0, x, y, 30);
+          p.c.beginPath();
+          p.c.save();
+          let lg = p.c.createRadialGradient(x, y, 0, x, y, 30);
           lg.addColorStop(0, "#fff");
           lg.addColorStop(1, col);
-       p.c.arc(x, y, 20, 0, 2 * Math.PI);
-       p.c.fillStyle =lg;
-       p.c.fill();
-       p.c.restore();
-       p.c.save();
-       p.c.font = "20px  Microsoft YaHei"; //设置字体样式
-       p.c.fillText(tex, x - 7, y + 6); //绘制文本
-       p.c.textAlign = "center"; //设置绘制文本的给定点为文本中间
-       p.c.restore();
-          return [x,tex,y]
+          p.c.arc(x, y, 20, 0, 2 * Math.PI);
+          p.c.fillStyle = lg;
+          p.c.fill();
+          p.c.restore();
+          p.c.save();
+          p.c.font = "20px  Microsoft YaHei"; //设置字体样式
+          p.c.fillText(tex, x - 7, y + 6); //绘制文本
+          p.c.textAlign = "center"; //设置绘制文本的给定点为文本中间
+          p.c.restore();
+          return [x, tex, y, col]
         }
-    onUnmounted(()=>{
-      //封装一个获取id的函数
-      function $(value){
-        return document.getElementById(value)
-      }
-      //获取canvas上下文
-       p.c=$('canvass').getContext('2d')
-     //一段时间生产出的字母
-        clearInterval(p.tiems)
-         p.tiems= setInterval(()=>{
-           p.carr.push(p.cs())
-         },1000)
+        //下落速度函数
+    p.x=()=>{
 
       //下落字母速度
-      setInterval(()=>{
-
-        for (var i=0; i<p.carr.length ; i++){
-        p.c.clearRect(0,0,800,500)//清除画布
-        p.carr[i][2]++
-        p.cs(p.carr[i][0],p.carr[i][1],p.carr[i][2])
-
-      }
-      },1001)
-
-
-         //健盘事件
-
-      document.addEventListener("keyup", (e)=>{
-        //获取第一个出现的索引
-        function ekey(a){
-          return a[1]==e.key.toUpperCase()
-        }
-        p.b=p.carr.findIndex(ekey)
-        p.carr.splice(p.b,1)
-
+      cancelAnimationFrame(p.re)
+      p.re=requestAnimationFrame(()=>{
         p.c.clearRect(0,0,800,500)//清除画布
         for (let i=0; i<p.carr.length ; i++){
-          p.cs(p.carr[i][0],p.carr[i][1],p.carr[i][2])
-
+          p.carr[i][2]+=p.y
+          p.cs(p.carr[i][0],p.carr[i][1],p.carr[i][2],p.carr[i][3])
         }
-
       })
+
+    }
+    //开始按钮
+    p.good = () => {
+      p.times=new Date().getTime()
+      p.isover = false
+      //一段时间生产出的字母
+      clearInterval(p.tiems)
+      p.tiems = setInterval(() => {
+        p.carr.push(p.cs())
+        p.y+=0.02
+      }, 500)
+      p.x()
+    }
+    //结束按钮
+    p.over = () => {
+      p.time=Math.ceil((new Date().getTime()-p.times)/1000)
+      p.isbook=true
+      p.olnum='olnums'
+      clearInterval(p.tiems)
+      cancelAnimationFrame(p.re)
+    }
+    //重来
+    p.restart=()=>{
+      p.isgood=true;
+      //下落的字母数组
+     p.carr= []
+          //下落字母的值
+         p.y=1
+          //开始按钮显示隐藏
+          p.isgood=true
+          //完成数量
+          p.accomplish=0
+          //错过的数量
+          p.missarr=[]
+          //记录时间
+          p.time=0
+          //结束显示框
+          p.isbook=false
+          p.olnum="s"
+      p.c.clearRect(0, 0, 800, 500)//清除画布
+    }
+
+    watch(()=>p.carr,()=>{
+      //p.carr有变量就开始执行下落函数
+      p.x()
+      for (let i=0; i<p.carr.length ; i++){
+        if(p.carr[i][2]>=530){
+          p.missarr.push(p.carr[i])
+          p.carr.splice(i, 1)
+        }
+      }
+    },{deep:true})
+
+
+    onMounted(() => {
+      //封装一个获取id的函数
+      function $(value) {
+        return document.getElementById(value)
+      }
+
+      //获取canvas上下文
+      p.c = $('canvass').getContext('2d')
+
+      //健盘事件
+      document.addEventListener("keyup", (e) => {
+        let ek = e.key.toUpperCase()
+        for (let i = 0; i < p.carr.length; i++) {
+          if (ek == p.carr[i][1]) {
+            p.c.clearRect(0, 0, 800, 500)//清除画布
+            p.carr.splice(i, 1)
+            p.accomplish++
+            for (let j = 0; j < p.carr.length; j++) {
+              p.cs(p.carr[j][0], p.carr[j][1], p.carr[j][2], p.carr[j][3])
+            }
+          }
+        }
+      })
+
     })
 
 
-   return{
-     ...toRefs(p),
-   }
+    return {
+      ...toRefs(p),
+    }
+  }
 }
-}
-</script >
+</script>
 
-<style scoped  lang='less'>
+<style lang='less' scoped>
 * {
-    margin: 0;
-    padding: 0;
-    user-select: none;
+  margin: 0;
+  padding: 0;
+  user-select: none;
 }
 
 li {
-    list-style: none;
+  list-style: none;
 }
-.w{
-    width: 80vw;
-    margin: 0 auto;
-    height: 100vh;
+
+.w {
+  width: 80vw;
+  margin: 0 auto;
+  height: 100vh;
+  margin-top: -10px;
 }
 
 //下落区域
 section {
-    position: relative;
-    width: 80vw;
-    height: 75vh;
-    margin: 0 auto;
-    background-color: rgb(174, 237, 216);
-    overflow: hidden;
-   //开始按钮
-    #go {
-        font-size: 30px;
-        width: 100px;
-        height: 100px;
-        border-radius: 50%;
-        background-color: rgb(215, 232, 55);
-        border: 2px solid rgb(221, 239, 21);
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        cursor: pointer;
-        transform: translate(-50%, -50%);
-        &:hover {
-            opacity: 0.5;
-        }
+  position: relative;
+  width: 80vw;
+  height: 75vh;
+  margin: 0 auto;
+  background-color: rgb(174, 237, 216);
+  overflow: hidden;
+  //开始按钮
+  #go {
+    font-size: 30px;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background-color: rgb(215, 232, 55);
+    border: 2px solid rgb(221, 239, 21);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    cursor: pointer;
+    transform: translate(-50%, -50%);
+
+    &:hover {
+      background-color: rgb(183, 236, 8);
     }
+  }
 }
 
 .selects {
+  display: flex;
+  flex-wrap: wrap;
+  width: 80vw;
+  height: 75vh;
+  margin: 0 auto;
+  margin-top: 10px;
+  //结束重来按钮
+  #buts {
     display: flex;
     flex-wrap: wrap;
-    width: 80vw;
-    height: 75vh;
-    margin: 0 auto;
-    margin-top: 10px;
-    //暂停 继续
-    #buts {
-        display: flex;
-        flex-wrap: wrap;
-        button {
-            cursor: pointer;
-            width: 50px;
-            height: 50px;
-            margin-right: 30px;
-            border-radius: 50%;
-            border: 2px solid rgb(87, 238, 188);
-            background-color: rgb(145, 235, 205);
-        }
+
+    button {
+      cursor: pointer;
+      width: 50px;
+      height: 50px;
+      margin-right: 30px;
+      border-radius: 50%;
+      border: 2px solid rgb(87, 238, 188);
+      background-color: rgb(145, 235, 205);
+      &:hover{
+        background-color: rgb(28, 91, 70);
+      }
     }
-    //选择速度按钮
-    // #select {
-    //     width: 80px;
-    //     height: 30px;
-    //     cursor: pointer;
-    //     li {
-    //         &:first-child {
-    //             display: block;
-    //             width: 80px;
-    //             line-height: 35px;
-    //             background-color: rgb(215, 232, 55);
-    //             border: 1px solid rgb(221, 239, 21);
-    //         }
-    //         &:nth-child(2) {
-    //             display: block;
-    //             background-color: rgb(215, 232, 55);
-    //             border: 1px solid rgb(221, 239, 21);
-    //             opacity: 0.6;
-    //         }
-    //         width: 80px;
-    //         line-height: 30px;
-    //         background-color:rgb(145, 235, 205);
-    //         border: 1px solid rgb(87, 238, 188);
-    //     }
-    //     .nums:hover {
-    //         background-color: rgb(215, 232, 55);
-    //         border: 1px solid rgb(221, 239, 21);
-    //         opacity: 0.6;
-    //     }
-    // }
-    .s {
-        position: absolute;
-        top:77% ;
-        left: 50%;
+  }
+
+  .s {
+    position: absolute;
+    top: 77%;
+    left: 50%;
+  }
+
+  .olnums {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -120%);
+  }
+
+  //完成的数量//错过的数量
+  #num,
+  #miss,
+  #imte {
+    background-color: rgb(145, 235, 205);
+    border: 1px solid rgb(87, 238, 188);
+    text-align: center;
+    width: 150px;
+    height: 30px;
+    line-height: 30px;
+  }
 
 
-    }
-    .olnums{
-        position: absolute;
-        top:50% ;
-        left: 50%;
-        transform: translate(-50% ,-120%);
-    }
-    //完成的数量//错过的数量
-    #num,
-    #miss,
-    #imte{
-        background-color: rgb(145, 235, 205);
-        border: 1px solid rgb(87, 238, 188);
-        text-align: center;
-        width: 150px;
-        height: 30px;
-        line-height: 30px;
-    }
-    .i{
-        display: none;
-    }
-    #over{
-        background-color: rgb(206, 231, 83);
-        border: 1px solid rgb(142, 203, 80);
-        text-align: center;
-        width: 150px;
-        height: 50px;
-        line-height: 50px;
+  #over {
+    background-color: rgb(206, 231, 83);
+    border: 1px solid rgb(142, 203, 80);
+    text-align: center;
+    width: 150px;
+    height: 50px;
+    line-height: 50px;
 
-    }
+  }
 }
 
 </style>
