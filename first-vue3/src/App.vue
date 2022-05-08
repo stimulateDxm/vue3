@@ -102,10 +102,10 @@ export default {
       p.tiems = setInterval(() => {
         p.carr.push(p.cs())
         if(p.speed<=200){
-          p.speed-=20
+          p.speed-=30
         }
         if(p.y<=3){
-          p.y+=0.02
+          p.y+=0.1
         }
 
       }, 550)
