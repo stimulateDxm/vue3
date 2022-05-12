@@ -4,7 +4,7 @@
     <h1><a>腾讯课堂</a></h1>
     <div class="paging"><i class=" iconfont icon-fenlei"></i>分类</div>
     <div class="search">
-        <div class="search-1"> &nbsp;课程 <i class="iconfont icon-jiantoushang">></i></div>
+        <div class="search-1"> &nbsp;课程 <i class="iconfont icon-xiangxiajiantou"></i></div>
         <div class="search-1 search-1-xia"> &nbsp;机构</div>
         <div class="search-2"><input placeholder="搜索课程" type="text"></div>
         <div class="search-3"><i class="iconfont icon-sousuo"></i></div>
@@ -92,7 +92,8 @@ header {
       border: 1px solid #ccc;
       line-height: 50px;
       i{
-        transform: rotateX(90deg);
+        transform: rotateZ(90deg);
+
       }
     }
     .search-1-xia{

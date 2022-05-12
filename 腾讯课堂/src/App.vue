@@ -2,17 +2,20 @@
   <div>
     <Header></Header>
     <Section></Section>
+    <TypeNav></TypeNav>
   </div>
 </template>
 
 <script>
 import Header from "./components/header"
 import  Section from "./components/section"
+import  TypeNav from  "./components/typenav"
 export default {
   name: 'App',
   components:{
     Header,
-    Section
+    Section,
+    TypeNav
   }
 }
 </script>

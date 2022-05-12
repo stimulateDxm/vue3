@@ -1,7 +1,12 @@
 <template>
-  <section id="di"   @mouseenter="ulsEnter()" @mouseleave="ulsLeave()">
+  <section id="di"   @mouseenter="ulsEnter()" @mouseleave="ulsLeave()"    :class="'child'+a"
+  >
+    <div class="w">
     <ul id="uls">
-      <li class="frist"  v-for="(i) in imgs" :key="i"> <a><img :src="require('../../assets/'+a+'.png')" alt=""></a></li>
+      <li class="frist"
+          v-for="(i) in imgs"
+          :key="i"
+      > <a><img :src="require('../../assets/'+a+'.png')" alt=""></a></li>
 
     </ul>
     <ol>
@@ -9,14 +14,16 @@
       <li id="gt" @click="gt()">&gt;</li>
     </ol>
     <ul id="didi">
-      <li v-for="i in imgs" :key="i" @click="dots(i)"   :style="{ opacity: i == a ? 0.9 : 0.3 }"></li>
+      <li v-for="i in imgs" :key="i" @click="dots(i)"   :style="{ opacity: i == a ? 0.9 : 0.2 }"></li>
     </ul>
     <div class="mod-entry">
       <p>跟进你的学习进度</p>
       <div></div>
       <button>登录</button>
     </div>
-   </section>
+    </div>
+
+  </section>
 </template>
 <script>
 import {reactive,toRefs,onMounted,onUpdated} from "vue"
@@ -26,12 +33,14 @@ export default {
     let p=reactive({
       a:1,
       //定义切换图片数量
-      imgs: [1, 2, 3, 4, 5]
+      imgs: [1, 2, 3, 4, 5],
+      // 节流
+      lock :true,
+
     })
     //  点左切换上一张
     p.lt=()=> {
-      console.log("111")
-      if (p.lock) return;
+      if (!p.lock) return;
       p.lock = false;
       p.a--;
       if (p.a == 0) {
@@ -113,31 +122,32 @@ li {
   list-style: none;
 }
 .frist{
-  position: absolute;
-  left: 0;
+ position: absolute;
+  left: 150px;
   top: 0;
   width: 100vw;
   height: 300px;
 
 }
-.frist:first-child{
+/*轮播切换的背景颜色*/
+.child1{
   background-color: white;
 }
-.frist:nth-child(2){
+.child2{
 background-color: #1761cc;
 }
-.frist:nth-child(3){
+.child3{
   background-color: #2A1D27;
 }
-.frist:nth-child(4){
+.child4{
 background-color: #0D0D0D;
 }
-.frist:nth-child(5){
+.child5{
   background-color: #202be9;
 }
 ul li img {
   position: absolute;
-  left: 112px;
+  left: 0;
   top: 0;
   opacity: 0;
 }
@@ -180,7 +190,7 @@ ol li:hover {
   display: flex;
   flex-wrap: nowrap;
   left: 30%;
-  top: 94%;
+  top: 280px;
   z-index: 2;
 }
 #didi li {
@@ -193,11 +203,17 @@ ol li:hover {
 #didi li:hover{
   opacity: 0.8;
 }
+.w{
+  width: 1200px;
+  margin: 0 auto;
+  position: relative;
+}
 .mod-entry{
   width: 220px;
   height: 260px;
+
   position: absolute;
-  left: 980px;
+  right: 0;
   top: 20px;
   background-color: white;
   border: 1px solid #ccc;
