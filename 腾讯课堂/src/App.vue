@@ -3,6 +3,7 @@
     <Header></Header>
     <Section></Section>
     <TypeNav></TypeNav>
+    <DateList></DateList>
   </div>
 </template>
 
@@ -10,12 +11,14 @@
 import Header from "./components/header"
 import  Section from "./components/section"
 import  TypeNav from  "./components/typenav"
+import  DateList from "./components/data-list"
 export default {
   name: 'App',
   components:{
     Header,
     Section,
-    TypeNav
+    TypeNav,
+    DateList
   }
 }
 </script>

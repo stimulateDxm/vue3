@@ -2,10 +2,9 @@
 
   <header>
     <h1><a>腾讯课堂</a></h1>
-    <div class="paging"><i class=" iconfont icon-fenlei"></i>分类</div>
     <div class="search">
-        <div class="search-1"> &nbsp;课程 <i class="iconfont icon-xiangxiajiantou"></i></div>
-        <div class="search-1 search-1-xia"> &nbsp;机构</div>
+        <div class="search-1" @click="issearchXia1()"> &nbsp;课程 <i class="iconfont icon-xiangxiajiantou"></i></div>
+        <div class="search-1 search-1-xia" v-show="issearchXia"> &nbsp;机构</div>
         <div class="search-2"><input placeholder="搜索课程" type="text"></div>
         <div class="search-3"><i class="iconfont icon-sousuo"></i></div>
       </div>
@@ -20,8 +19,20 @@
 </template>
 
 <script>
+import {reactive,toRefs} from  "vue"
 export default {
   name: 'Header',
+  setup(){
+    let h=reactive({
+      issearchXia:false,
+    })
+    h.issearchXia1 = ()=>{
+     h.issearchXia=!h.issearchXia
+    }
+    return{
+      ...toRefs(h)
+    }
+  }
 }
 </script>
 
@@ -61,20 +72,6 @@ header {
     line-height: 80px;
   }
 
-  .paging {
-    i {
-      font-size: 35px;
-      position: absolute;
-      top: 2px;
-      left: -40px;
-    }
-
-    position: absolute;
-    top: 0;
-    line-height: 80px;
-    left: 280px;
-    font-size: 20px;
-  }
 
   .search {
     margin-left: 50px;
@@ -90,17 +87,15 @@ header {
       width: 58px;
       height: 50px;
       border: 1px solid #ccc;
+      background-color: white;
       line-height: 50px;
-      i{
-        transform: rotateZ(90deg);
 
-      }
     }
     .search-1-xia{
       position: absolute;
       top: 51px;
       left: 0;
-      display: none;
+      z-index: 5;
     }
     .search-2 {
       width: 238px;

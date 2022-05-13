@@ -1,22 +1,43 @@
 <template>
+  <div class=".w">
   <div class="type-nav">
-    <ul>
-      <li><dt><a>IT.互联网</a></dt> <dd><a>前端开发</a><a>java</a></dd><i class="iconfont icon-xiangyoujiantou"></i></li>
-      <li><dt><a>IT.互联网</a></dt> <dd><a>前端开发</a><a>java</a></dd><i class="iconfont icon-xiangyoujiantou"></i></li>
-      <li><dt><a>IT.互联网</a></dt> <dd><a>前端开发</a><a>java</a></dd><i class="iconfont icon-xiangyoujiantou"></i></li>
-      <li><dt><a>IT.互联网</a></dt> <dd><a>前端开发</a><a>java</a></dd><i class="iconfont icon-xiangyoujiantou"></i></li>
-      <li><dt><a>IT.互联网</a></dt> <dd><a>前端开发</a><a>java</a></dd><i class="iconfont icon-xiangyoujiantou"></i></li>
-      <li><dt><a>IT.互联网</a></dt> <dd><a>前端开发</a><a>java</a></dd><i class="iconfont icon-xiangyoujiantou"></i></li>
-      <li><dt><a>IT.互联网</a></dt> <dd><a>前端开发</a><a>java</a></dd><i class="iconfont icon-xiangyoujiantou"></i></li>
-    </ul>
+    <div class="paging" @mouseover="isnav=true" @mouseout="isnav=false"><i class=" iconfont icon-fenlei"></i>分类
+      <ul class="ul1" v-show="isnav">
+        <li class="list2"><h3><a>IT.互联网</a></h3> <p><a>前端开发</a><a>java</a></p><i class="iconfont icon-xiangyoujiantou"></i>
+        </li>
+        <li class="list2"><h3><a>IT.互联网</a></h3> <p><a>前端开发</a><a>java</a></p><i class="iconfont icon-xiangyoujiantou"></i></li>
+        <li class="list2"><h3><a>IT.互联网</a></h3> <p><a>前端开发</a><a>java</a></p><i class="iconfont icon-xiangyoujiantou"></i></li>
+        <li class="list2"><h3><a>IT.互联网</a></h3> <p><a>前端开发</a><a>java</a></p><i class="iconfont icon-xiangyoujiantou"></i></li>
+        <li class="list2"><h3><a>IT.互联网</a></h3> <p><a>前端开发</a><a>java</a></p><i class="iconfont icon-xiangyoujiantou"></i></li>
+        <ul>
+          <li><h3><a>前端开发</a></h3><p><a>前端零基础</a><a>前端进阶</a><a>其他</a></p></li>
+          <li><h3><a>前端开发</a></h3><p><a>前端零基础</a><a>前端进阶</a><a>其他</a></p></li>
+          <li><h3><a>前端开发</a></h3><p><a>前端零基础</a><a>前端进阶</a><a>其他</a></p></li>
+          <li><h3><a>前端开发</a></h3><p><a>前端零基础</a><a>前端进阶</a><a>其他</a></p></li>
+          <li><h3><a>前端开发</a></h3><p><a>前端零基础</a><a>前端进阶</a><a>其他</a></p></li>
+          <li><h3><a>前端开发</a></h3><p><a>前端零基础</a><a>前端进阶</a><a>其他</a></p></li>
+          <li><h3><a>前端开发</a></h3><p><a>前端零基础</a><a>前端进阶</a><a>其他</a></p></li>
+        </ul>
+      </ul>
 
+    </div>
 
+  </div>
   </div>
 </template>
 
 <script>
+import {reactive, toRefs} from "vue"
 export default {
   name: 'TypeNav',
+  setup(){
+    let t=reactive({
+      isnav: false
+    } )
+return{
+      ...toRefs(t)
+}
+  }
 }
 </script>
 
@@ -24,18 +45,77 @@ export default {
 li{
   list-style: none;
 }
-.type-nav{
+.w{
   position: relative;
-  left: 155px;
-  top: -301px;
-  //border: 1px solid #ccc;
-  z-index: 99;
-  width: 232px;
-  background-color: white;
-  ul{
-    width: 232px;
+  width: 1200px;
+  margin: 0 auto;
+}
+
+.type-nav{
+  width: 1200px;
+  margin: 0 auto;
+  position: absolute;
+  left: 0;
+  top: 80px;
+  //分类
+  .paging {
+    .icon-fenlei{
+      font-size: 35px;
+      position: absolute;
+      top: 2px;
+      left: -40px;
+    }
+
+    position: absolute;
+    top: -82px;
+    line-height: 80px;
+    left: 260px;
+    font-size: 20px;
+     &:hover ul{
+     }
+//二级下拉
+  .ul1{
+    z-index: 99;
     display: flex;
     flex-wrap: wrap;
+    background-color: #ffffff;
+    position: absolute;
+    left: -105px;
+    top: 82px;
+    &:hover ul{
+      display: block;
+    }
+
+    //三级
+    ul{
+      display: none;
+      width: 750px;
+      height: 7500px;
+      background-color: white;
+      border: 1px solid #ccc;
+      box-shadow: 10px 10px 10px rgba(150,150,150,0.5 );
+      position: absolute;
+      left: 220px;
+      top: -1px;
+      li{
+        display: flex;
+        flex-wrap: nowrap;
+        line-height: 50px;
+        h3{
+          margin: 10px;
+          margin-right: 40px;
+          font-size: 18px;
+        }
+        p{
+          margin: 10px 5px;
+          font-size: 16px;
+          opacity: 0.8;
+          a{
+            margin-right: 25px;
+          }
+        }
+      }
+    }
     &::after{
       content: "";
       width: 0;
@@ -43,7 +123,7 @@ li{
       border-style: solid;
       border-width: 0 8px 8px;
       position: absolute;
-      left: 50%;
+      left: 100px;
       top: -7px;
       border-color: transparent  transparent white;
       z-index: 100;
@@ -55,11 +135,11 @@ li{
      border-style: solid;
      border-width: 0 8px 8px;
      position: absolute;
-     left: 50%;
+     left: 100px;
      top: -8px;
      border-color: transparent  transparent #ccc;
    }
-  li{
+  .list2{
     position: relative;
     width: 200px;
     height: 50px;
@@ -67,27 +147,31 @@ li{
     border: 1px solid #ccc;
 
 
-    dt{
+    h3{
       font-size: 16px;
+      margin-top: -25px;
     }
-    dd{
+    p{
       font-size: 14px;
-      margin-top: 8px;
+      margin-top:-55px;
+      //margin-top: 8px;
       color: #666666;
       a{
         margin-right: 20px;
 
       }
     }
-    i{
+    .icon-xiangyoujiantou{
       position: absolute;
       right: 20px;
-      top: 20px;
+      top: -10px;
       font-size: 12px;
     }
 
   }
   }
 }
+}
+
 
 </style>
