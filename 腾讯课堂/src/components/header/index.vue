@@ -9,7 +9,7 @@
         <div class="search-3"><i class="iconfont icon-sousuo"></i></div>
       </div>
       <ul class="header-ul">
-        <li @mouseover="isulli1=true" @mouseuot="isulli1=false">入驻/合作
+        <li class="lis" @mouseover="isulli1=true" @mouseout.self="isulli1=false">入驻/合作
         <ul v-show="isulli1" >
           <li>个人入驻</li>
           <li>个人入驻</li>
@@ -17,11 +17,11 @@
           <li>个人入驻</li>
         </ul>
         </li>
-        <li @mouseover="isulli2=true" @mouseout="isulli2=false">客户端
+        <li class="lis" @mouseover="isulli2=true" @mouseout.self="isulli2=false">客户端
         <ul v-show="isulli2">
-          <li>app</li>
-          <li>mac</li>
-          <li>win</li>
+          <li>app客户端</li>
+          <li>mac客户端</li>
+          <li>win客户端</li>
         </ul>
         </li>
         <li><a>私信</a></li>
@@ -124,7 +124,7 @@ header {
       border: 1px solid #ccc;
       width: 48px;
       height: 50px;
-      background-color: #6ca1c9;
+      background-color: #23b8ff;
 
       i {
         font-size: 35px;
@@ -136,6 +136,7 @@ header {
   }
   //下拉样式
   .u(@l:0,@t:50px){
+    visibility: hidden;
     position: absolute;
     left: @l;
     top: @t;
@@ -145,6 +146,14 @@ header {
     border: 1px solid #ccc;
     background-color: #fff;
     z-index: 99;
+    li{
+      text-align: center;
+      line-height: 40px;
+      &:hover{
+        color: #23b8ff;
+      }
+    }
+
     &::after{
       content: "";
       width: 0;
@@ -169,10 +178,6 @@ header {
       border-color: transparent  transparent #ccc;
     }
 
-    li{
-      margin: 0 20px;
-      line-height: 40px;
-    }
 
   }
 //header右边列表
@@ -186,14 +191,22 @@ header {
   margin-left: 20px;
 }
     //入驻合作
-    li:nth-child(1) {
-     ul{
+    .lis:nth-child(1) {
+      margin-right: -50px;
+      width: 120px;
+      height: 60px;
+      &:hover ul{
+        visibility: visible;
+      }
+      ul{
        .u(-10px);
-
      }
       }
-//客户端
-    li:nth-child(2){
+    //客户端
+    .lis:nth-child(2){
+      &:hover ul{
+        visibility: visible;
+      }
       ul{
    .u(80px)
       }

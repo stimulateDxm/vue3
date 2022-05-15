@@ -15,6 +15,7 @@
     </div>
 
 
+
 </template>
 
 <script>
@@ -87,9 +88,15 @@ h3{
 }
 div:nth-child(2){
   font-size: 12px;
+ a{
+   &:hover{
+     color: #23b8ff;
+   }
+ }
 }
 div:nth-child(3){
   font-size: 14px;
+
 span{
   margin-right: 10px;
 &:nth-child(1){

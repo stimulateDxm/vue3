@@ -18,7 +18,7 @@ import Header from "./components/header"
 import  Section from "./components/section"
 import  TypeNav from  "./components/typenav"
 import  DateList from "./components/data-list"
-import {reactive, toRefs} from "vue";
+import {onUpdated, reactive, toRefs} from "vue";
 export default {
   name: 'App',
   components:{
@@ -31,6 +31,9 @@ export default {
     let p=reactive({
       isfixed:true
     })
+    onUpdated(()=>{
+
+    })
     return{
       ...toRefs(p)
     }
@@ -39,11 +42,15 @@ export default {
 </script>
 
 <style lang="less" >
+
 *{
   margin: 0;
   padding: 0;
+  user-select: none;
 }
-
+a{
+  cursor:pointer
+}
 
 .fixed{
   z-index: 99999;
@@ -55,12 +62,15 @@ export default {
   text-align: center;
   top: 400px;
   right: 30px;
+  background-color: white;
   i{
     width: 62px;
    line-height: 62px;
     font-size: 35px;
+    color: #23b8ff;
     &:hover{
-      background-color: #1761cc;
+      background-color:#23b8ff;
+      color: white;
     }
   }
 }

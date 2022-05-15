@@ -13,9 +13,11 @@
       <li id="lt" @click="lt()">&lt;</li>
       <li id="gt" @click="gt()">&gt;</li>
     </ol>
-    <ul id="didi">
+      <div id="didi">
+    <ul >
       <li v-for="i in imgs" :key="i" @click="dots(i)"   :style="{ opacity: i == a ? 0.9 : 0.2 }"></li>
     </ul>
+      </div>
     <div class="mod-entry">
       <p>跟进你的学习进度</p>
       <div></div>
@@ -185,12 +187,14 @@ ol li:hover {
   opacity: 0.6;
 }
 #didi {
-  position: absolute;
-  display: flex;
-  flex-wrap: nowrap;
-  left: 30%;
+  position: relative;
   top: 280px;
   z-index: 2;
+}
+#didi ul{
+  display: flex;
+  flex-wrap: nowrap;
+  margin-left: 350px;
 }
 #didi li {
   width: 43px;
@@ -226,12 +230,15 @@ ol li:hover {
 .mod-entry button{
   position: absolute;
   bottom: 10px;
-  background-color: #91b5e9;
+  background-color: #23b8ff;
   width: 200px;
   line-height: 50px;
   color: white;
   border: 1px solid #fff;
   margin-left: 10px;
+}
+.mod-entry button:hover{
+  background-color: #15a7ec;
 
 }
 </style>

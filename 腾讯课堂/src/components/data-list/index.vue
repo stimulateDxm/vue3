@@ -6,15 +6,13 @@
    <li   v-for="(itme,i) in list" :key="i" :class="{blus:isblu}" @click="blu()"><a>{{ itme }}</a></li>
     <div><a>修改兴趣</a></div>
  </ul>
-    <div class="data-list-class">
       <DataListClass></DataListClass>
-      <DataListClass></DataListClass>
-      <DataListClass></DataListClass>
-      <DataListClass></DataListClass>
-      <DataListClass></DataListClass>
+    <div class="data-list-class2">
       <DataListClass></DataListClass>
     </div>
-
+    <div class="data-list-class3">
+      <DataListClass></DataListClass>
+    </div>
 
 
   </div>
@@ -71,6 +69,8 @@ li{
     flex-wrap: nowrap;
     line-height: 76px;
     justify-content: center;
+    //修改兴趣
+
     div {
         width: 80px;
         position: absolute;
@@ -78,38 +78,42 @@ li{
         top: 0;
         color: #666;
       text-align: center;
+      z-index: 2;
+      &:hover a{
+        border: 1px solid #000;
+        color: #0D0D0D;
+
+      }
         a{
         border: 1px solid #666;
        padding: 5px;
+
         }
       }
-
     li{
       font-size: 24px;
       color: #666;
       margin: 0 10px;
       &:nth-child(1){
-        color: #1761cc;
-        border-bottom: 4px solid #1761cc;
+        color: #23b8ff;
+        border-bottom: 4px solid #23b8ff;
       }
+
 .blu{
-  color: #1761cc;
-  border-bottom: 4px solid #1761cc;
+  color: #23b8ff;
+  border-bottom: 4px solid #23b8ff;
 
 }
     }
   }
 }
-.data-list-class{
-  display: flex;
-  flex-wrap: wrap;
-  margin-top: 30px;
-  &::after{
-    content: "";
-    height: 0;
-    display: block;
-    clear: both;
-    visibility: hidden;
-  }
+.data-list-class2{
+  position: relative;
+  top: 570px;
 }
+.data-list-class3{
+  position: relative;
+  top: 1140px;
+}
+
 </style>

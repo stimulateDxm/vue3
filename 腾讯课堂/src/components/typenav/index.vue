@@ -67,14 +67,12 @@ li{
       top: 2px;
       left: -40px;
     }
-
     position: absolute;
     top: -82px;
     line-height: 80px;
     left: 280px;
     font-size: 20px;
-     &:hover ul{
-     }
+
 //二级下拉
   .ul1{
     z-index: 99;
