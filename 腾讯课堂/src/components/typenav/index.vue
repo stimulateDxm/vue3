@@ -1,5 +1,5 @@
 <template>
-  <div class=".w">
+  <div class="wt">
   <div class="type-nav">
     <div class="paging" @mouseover="isnav=true" @mouseout="isnav=false"><i class=" iconfont icon-fenlei"></i>分类
       <ul class="ul1" v-show="isnav">
@@ -45,18 +45,20 @@ return{
 li{
   list-style: none;
 }
-.w{
+.wt{
   position: relative;
   width: 1200px;
   margin: 0 auto;
+
 }
 
 .type-nav{
   width: 1200px;
+  height: 900px;
   margin: 0 auto;
   position: absolute;
   left: 0;
-  top: 80px;
+  top: -300px;
   //分类
   .paging {
     .icon-fenlei{
@@ -69,7 +71,7 @@ li{
     position: absolute;
     top: -82px;
     line-height: 80px;
-    left: 260px;
+    left: 280px;
     font-size: 20px;
      &:hover ul{
      }

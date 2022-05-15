@@ -5,6 +5,12 @@
     <TypeNav></TypeNav>
     <DateList></DateList>
   </div>
+  <div class="fixed">
+    <i class="iconfont icon-xinxi"></i>
+    <i class="iconfont icon-shouji"></i>
+    <i v-show="isfixed" class="iconfont icon-xiangshang"></i>
+
+  </div>
 </template>
 
 <script>
@@ -12,6 +18,7 @@ import Header from "./components/header"
 import  Section from "./components/section"
 import  TypeNav from  "./components/typenav"
 import  DateList from "./components/data-list"
+import {reactive, toRefs} from "vue";
 export default {
   name: 'App',
   components:{
@@ -19,24 +26,43 @@ export default {
     Section,
     TypeNav,
     DateList
+  },
+  setup(){
+    let p=reactive({
+      isfixed:true
+    })
+    return{
+      ...toRefs(p)
+    }
   }
 }
 </script>
 
-<style >
+<style lang="less" >
 *{
   margin: 0;
   padding: 0;
 }
 
 
-@font-face {
-  font-family: 'iconfont';  /* project id 3391629 */
-  src: url('?#iefix') format('embedded-opentype'),
-  url('//at.alicdn.com/t/font_3391629_thtvcmiqhqp.woff2') format('woff2'),
-  url('//at.alicdn.com/t/font_3391629_thtvcmiqhqp.woff') format('woff'),
-  url('//at.alicdn.com/t/font_3391629_thtvcmiqhqp.ttf') format('truetype'),
-  url('#iconfont') format('svg');
+.fixed{
+  z-index: 99999;
+  position: fixed;
+  width: 62px;
+  border: 1px solid #ccc;
+  display: flex;
+  flex-wrap: wrap;
+  text-align: center;
+  top: 400px;
+  right: 30px;
+  i{
+    width: 62px;
+   line-height: 62px;
+    font-size: 35px;
+    &:hover{
+      background-color: #1761cc;
+    }
+  }
 }
 
 </style>

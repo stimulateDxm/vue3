@@ -1,7 +1,7 @@
 <template>
 
   <header>
-    <h1><a>腾讯课堂</a></h1>
+    <h1><img src="../../../src/assets/logo.png"><a>腾讯课堂</a></h1>
     <div class="search">
         <div class="search-1" @click="issearchXia1()"> &nbsp;课程 <i class="iconfont icon-xiangxiajiantou"></i></div>
         <div class="search-1 search-1-xia" v-show="issearchXia"> &nbsp;机构</div>
@@ -9,8 +9,21 @@
         <div class="search-3"><i class="iconfont icon-sousuo"></i></div>
       </div>
       <ul class="header-ul">
-        <li>入驻/合作</li>
-        <li>客户端</li>
+        <li @mouseover="isulli1=true" @mouseuot="isulli1=false">入驻/合作
+        <ul v-show="isulli1" >
+          <li>个人入驻</li>
+          <li>个人入驻</li>
+          <li>个人入驻</li>
+          <li>个人入驻</li>
+        </ul>
+        </li>
+        <li @mouseover="isulli2=true" @mouseout="isulli2=false">客户端
+        <ul v-show="isulli2">
+          <li>app</li>
+          <li>mac</li>
+          <li>win</li>
+        </ul>
+        </li>
         <li><a>私信</a></li>
         <li><a>登录</a></li>
       </ul>
@@ -25,6 +38,8 @@ export default {
   setup(){
     let h=reactive({
       issearchXia:false,
+      isulli1:false,
+      isulli2:false,
     })
     h.issearchXia1 = ()=>{
      h.issearchXia=!h.issearchXia
@@ -51,25 +66,20 @@ li {
   margin: 0 auto;
 }
 
-@font-face {
-  font-family: 'iconfont';  /* project id 3391629 */
-  src: url('?#iefix') format('embedded-opentype'),
-  url('//at.alicdn.com/t/font_3391629_thtvcmiqhqp.woff2') format('woff2'),
-  url('//at.alicdn.com/t/font_3391629_thtvcmiqhqp.woff') format('woff'),
-  url('//at.alicdn.com/t/font_3391629_thtvcmiqhqp.ttf') format('truetype'),
-  url('#iconfont') format('svg');
-}
 
 header {
   position: relative;
   height: 80px;
   .w();
-
   H1 {
-    margin-left: 50px;
-    width: 192px;
+    img{}
+    width: 220px;
     height: 80px;
     line-height: 80px;
+    a{
+      position: absolute;
+      top: 0px;
+    }
   }
 
 
@@ -124,15 +134,69 @@ header {
       }
     }
   }
+  //下拉样式
+  .u(@l:0,@t:50px){
+    position: absolute;
+    left: @l;
+    top: @t;
+    width: 120px;
+    display: flex;
+    flex-wrap: wrap;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    z-index: 99;
+    &::after{
+      content: "";
+      width: 0;
+      height: 0;
+      border-style: solid;
+      border-width: 0 8px 8px;
+      position: absolute;
+      left: 53px;
+      top: -8px;
+      border-color: transparent  transparent white;
+      z-index: 100;
+    }
+    &::before{
+      content: "";
+      width: 0;
+      height: 0;
+      border-style: solid;
+      border-width: 0 8px 8px;
+      position: absolute;
+      left: 53px;
+      top: -9px;
+      border-color: transparent  transparent #ccc;
+    }
 
+    li{
+      margin: 0 20px;
+      line-height: 40px;
+    }
+
+  }
+//header右边列表
   .header-ul {
     position: absolute;
-    top: 0;
+    top: 30px;
     right: 0;
+    display: flex;
+    flex-wrap: nowrap;
+  li{
+  margin-left: 20px;
+}
+    //入驻合作
+    li:nth-child(1) {
+     ul{
+       .u(-10px);
 
-    li {
-      float: left;
-      margin: 30px 10px;
+     }
+      }
+//客户端
+    li:nth-child(2){
+      ul{
+   .u(80px)
+      }
     }
   }
 

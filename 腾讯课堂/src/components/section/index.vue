@@ -167,7 +167,6 @@ ol {
   flex-wrap: nowrap;
   align-items: center;
   z-index: 2;
-  margin-left: 50px;
 
 }
 ol li {
