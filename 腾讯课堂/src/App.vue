@@ -48,6 +48,7 @@ export default {
   padding: 0;
   user-select: none;
 }
+
 a{
   cursor:pointer
 }

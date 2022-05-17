@@ -1,17 +1,17 @@
 <template>
-  <section id="di"   @mouseenter="ulsEnter()" @mouseleave="ulsLeave()"    :class="'child'+a"
-  >
+  <section id="di"   @mouseenter="ulsEnter()" @mouseleave="ulsLeave()"    :class="'child'+a">
     <div class="w">
-    <ul id="uls">
+    <ul id="uls" >
       <li class="frist"
           v-for="(i) in imgs"
           :key="i"
       > <a><img :src="require('../../assets/'+a+'.png')" alt=""></a></li>
 
-    </ul>
-    <ol>
-      <li id="lt" @click="lt()">&lt;</li>
-      <li id="gt" @click="gt()">&gt;</li>
+    </ul >
+<!--      :style="{backgroundColor:ishover?'grba(0,0,0,0.7)':'grba(0,0,0,0.2)'}"-->
+    <ol  class="ltgt"  v-show="ishover" >
+      <li id="lt" @click="lt()"><i class="iconfont icon-xiangzuojiantou"></i></li>
+      <li id="gt" @click="gt()"><i class="iconfont icon-xiangyoujiantou"></i></li>
     </ol>
       <div id="didi">
     <ul >
@@ -38,8 +38,12 @@ export default {
       imgs: [1, 2, 3, 4, 5],
       // 节流
       lock :true,
-
+      ishover:false,
     })
+    // 左右hover
+    // p.hover=()=>{
+    //   p.ishover=true
+    // }
     //  点左切换上一张
     p.lt=()=> {
       if (!p.lock) return;
@@ -66,10 +70,13 @@ export default {
         },
         //移入图片时停止播放
         p.ulsEnter=()=> {
+        p.ishover=true
           clearInterval(p.timer);
+        console.log("aa")
         },
         //移出图片时自动播放
         p.ulsLeave=()=> {
+          p.ishover=false
           clearInterval(p.timer);
           p.timer = setInterval(() => {
             p.gt();
@@ -103,31 +110,23 @@ export default {
 <style scoped lang="css">
 section{
   position: relative;
-}
-#di {
-  position: relative;
-  margin: 0 auto;
   width: 100vw;
   height: 300px;
+  z-index: 1;
 }
-
-ul {
+/*图片ul*/
+#uls{
   position: absolute;
-  left: 0;
-  top: 0;
-  width: 100vw;
   height: 300px;
-
-
+  padding-left: 150px;
 }
 li {
   list-style: none;
 }
+/*图片li*/
 .frist{
  position: absolute;
-  left: 150px;
   top: 0;
-  width: 100vw;
   height: 300px;
 
 }
@@ -147,32 +146,30 @@ background-color: #0D0D0D;
 .child5{
   background-color: #202be9;
 }
+/*轮播图片*/
 ul li img {
-  position: absolute;
+  position: relative;
   left: 0;
   top: 0;
-  opacity: 0;
-}
-ul .frist img {
-  opacity: 1;
-}
-img {
   width: 710px;
   height: 300px;
+  opacity: 0;
+  z-index: 1;
 }
+ul li img:nth-child(1){
+  opacity: 1;
+}
+/*左右轮播切换ol*/
 ol {
-  width: 900px;
-  height: 300px;
   position: absolute;
   display: flex;
-  justify-content: space-between;
   flex-wrap: nowrap;
   align-items: center;
-  z-index: 2;
-
+ margin-top: 150px;
 }
+/*左右轮播切换*/
 ol li {
-  background-color: #000;
+  background-color: rgba(0,0,0,0.2);
   width: 50px;
   height: 50px;
   line-height: 45px;
@@ -180,18 +177,29 @@ ol li {
   color: white;
   font-size: 40px;
   text-align: center;
-  margin-top: -25px;
-  opacity: 0.3;
+  margin-top: -20px;
+  z-index: 99;
 }
-ol li:hover {
-  opacity: 0.6;
+ol li:nth-child(1){
+  margin-right: 800px;
 }
+  /*左右轮播切换箭头*/
+ol li i{
+  font-size: 30px;
+  color: #ffffff;
+}
+ol li:hover{
+  background-color: rgba(0,0,0,0.5);
+
+}
+/*下部切换图片横线*/
 #didi {
   position: relative;
   top: 280px;
   z-index: 2;
 }
 #didi ul{
+
   display: flex;
   flex-wrap: nowrap;
   margin-left: 350px;
@@ -202,11 +210,14 @@ ol li:hover {
   margin: 0 5px;
   background-color: #333;
   opacity: 0.5;
+  z-index: 2;
 }
 #didi li:hover{
   opacity: 0.8;
+
 }
 .w{
+
   width: 1200px;
   margin: 0 auto;
   position: relative;
@@ -214,7 +225,6 @@ ol li:hover {
 .mod-entry{
   width: 220px;
   height: 260px;
-
   position: absolute;
   right: 0;
   top: 20px;

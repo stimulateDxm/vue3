@@ -99,6 +99,9 @@ header {
       border: 1px solid #ccc;
       background-color: white;
       line-height: 50px;
+      i{
+        font-size: 10px;
+      }
 
     }
     .search-1-xia{
