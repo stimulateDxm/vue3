@@ -4,6 +4,7 @@
     <Section></Section>
     <TypeNav></TypeNav>
     <DateList></DateList>
+    <Login></Login>
   </div>
   <div class="fixed">
     <i class="iconfont icon-xinxi"></i>
@@ -18,6 +19,7 @@ import Header from "./components/header"
 import  Section from "./components/section"
 import  TypeNav from  "./components/typenav"
 import  DateList from "./components/data-list"
+import Login from  "./components/login"
 import {onUpdated, reactive, toRefs} from "vue";
 export default {
   name: 'App',
@@ -25,12 +27,16 @@ export default {
     Header,
     Section,
     TypeNav,
-    DateList
+    DateList,
+    Login
   },
   setup(){
     let p=reactive({
-      isfixed:true
+      isfixed:true,
+      //控制登录框显示隐藏
+      islogin:false
     })
+
     onUpdated(()=>{
 
     })
