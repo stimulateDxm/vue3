@@ -4,7 +4,7 @@
     <Section></Section>
     <TypeNav></TypeNav>
     <DateList></DateList>
-    <Login></Login>
+    <Login v-show="false"></Login>
   </div>
   <div class="fixed">
     <i class="iconfont icon-xinxi"></i>

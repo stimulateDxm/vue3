@@ -127,6 +127,8 @@ export default {
      input{
        width: 19px;
        height: 19px;
+       position: relative;
+       top: 5px;
 
      }
    }
@@ -160,6 +162,12 @@ export default {
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
+        &:hover{
+          opacity: 0.8;
+          i{
+            opacity: 0.8;
+          }
+        }
         i{
           font-size: 25px;
           background-color: #e6e3e3;
